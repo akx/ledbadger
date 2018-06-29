@@ -13,8 +13,16 @@ being sent to the device.
 Usage
 -----
 
-No usage instructions yet, since things are a bit flaky.
+Things may be a little flaky, but if you want longcat on your display,
 
+* `pip install -r requirements.txt`
+* `python send_custom.py`
+
+> <img src="./longcat.jpg" height="200">
+>
+> Longcat is somewhat long, and not very well drawn.
+
+---
 
 
 [xx1]: https://www.banggood.com/XANES-X1-DIY-Bicycle-Taillight-Programmable-LED-Electronic-Advertising-Display-Bicycle-TailLight-USB-p-1220458.html
