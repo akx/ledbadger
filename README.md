@@ -1,7 +1,7 @@
 ledbadger
 =========
 
-This repo contains tools for interacting with [XANES X1 programmable LED bicycle taillights](xx1)
+This repo contains tools for interacting with [XANES X1 programmable LED bicycle taillights][xx1].
 
 The management tools for the badges that ship with the taillights (LEDBadge and BMPBadge)
 are Windows-only, and to be quite honest, rather horrible.
