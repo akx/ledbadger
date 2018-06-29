@@ -1,26 +1,21 @@
-import time
-
 import hid
+import time
+from binascii import hexlify
 
-from ledbadger.utils import chunks
+from ledbadger.utils import chunks, pad_buffer
 
 
-def send_payload(payload, yes=False):
+def send_payload(buffers):
     h = hid.device()
     try:
         h.open(0x0416, 0x5020)
-        print("Manufacturer: %s" % h.get_manufacturer_string())
-        print("Product: %s" % h.get_product_string())
-        print("Serial No: %s" % h.get_serial_number_string())
-
-        assert len(payload) % 64 == 0, 'payload must be divisible by 64'
-
-        for chunk in chunks(payload, 64):
-            chunk += [0] * (64 - len(chunk))
-            assert len(chunk) == 64
-            print(chunk)
-            if yes:
-                h.write(chunk)
-            time.sleep(0.1)
+        for bi, buffer in enumerate(buffers):
+            for ci, chunk in enumerate(chunks(buffer, 64)):
+                # The buffer must be sent in messages of 64 bytes,
+                # each prefixed by a single null byte.
+                chunk = pad_buffer(chunk, 64)
+                assert h.write([0] + chunk) == 65
+                print(bi, ci, hexlify(bytes(chunk)))
+                time.sleep(0.3)
     finally:
         h.close()

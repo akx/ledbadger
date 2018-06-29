@@ -1,6 +1,8 @@
 import binascii
 import re
 
+from construct import Bit, Bitwise
+
 
 def read_hexdump(filename):
     with open(filename, 'r') as infp:
@@ -26,6 +28,14 @@ def pack_to_byte(bits):
 
 
 def pad_buffer(buffer, length, value=0):
-    buffer = buffer + [value] * (length - len(buffer))
-    assert len(buffer) == length
+    pad = [value] * (length - len(buffer))
+    if pad:
+        if isinstance(buffer, bytes):
+            pad = bytes(pad)
+        buffer = buffer + pad
+        assert len(buffer) == length, len(buffer)
     return buffer
+
+
+def to_bits(bytes):
+    return list(Bitwise(Bit[8 * len(bytes)]).parse(bytes))
